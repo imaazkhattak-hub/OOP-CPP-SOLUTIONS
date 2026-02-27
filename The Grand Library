@@ -1,0 +1,92 @@
+#include <iostream>
+using namespace std;
+
+class ReadingMaterial {
+public:
+    string title;
+    string author;
+    int id;
+
+    void displayBasic() {
+        cout << "ID: " << id << endl;
+        cout << "Title: " << title << endl;
+        cout << "Author: " << author << endl;
+    }
+};
+
+class LibraryItem : public ReadingMaterial {
+public:
+    string type;      
+    int pages;
+    string genre;
+
+    int issueNumber;
+    string month;
+
+    int duration;
+    string narrator;
+
+    void display() {
+        displayBasic();
+
+        if (type == "Book") {
+            cout << "Pages: " << pages << endl;
+            cout << "Genre: " << genre << endl;
+
+            if (pages > 300)
+                cout << "This is a long reading material." << endl;
+            else
+                cout << "This is a short reading material." << endl;
+        }
+
+        else if (type == "Magazine") {
+            cout << "Issue Number: " << issueNumber << endl;
+            cout << "Month: " << month << endl;
+        }
+
+        else if (type == "AudioBook") {
+            cout << "Duration: " << duration << " minutes" << endl;
+            cout << "Narrator: " << narrator << endl;
+
+            if (duration > 60)
+                cout << "This is a long reading material." << endl;
+            else
+                cout << "This is a short reading material." << endl;
+        }
+
+        cout << "----------------------" << endl;
+    }
+};
+
+int main() {
+
+    LibraryItem b1;
+    b1.type = "Book";
+    b1.title = "OOP in C++";
+    b1.author = "Ali";
+    b1.id = 1;
+    b1.pages = 450;
+    b1.genre = "Education";
+
+    LibraryItem m1;
+    m1.type = "Magazine";
+    m1.title = "Tech Monthly";
+    m1.author = "Editor A";
+    m1.id = 2;
+    m1.issueNumber = 10;
+    m1.month = "October";
+
+    LibraryItem a1;
+    a1.type = "AudioBook";
+    a1.title = "Learn Fast";
+    a1.author = "John";
+    a1.id = 3;
+    a1.duration = 80;
+    a1.narrator = "David";
+
+    b1.display();
+    m1.display();
+    a1.display();
+
+    return 0;
+}
