@@ -1,0 +1,64 @@
+#include <iostream>
+using namespace std;
+
+class Delivery
+{
+protected:
+    int id;
+    double cost;
+    string customer;
+
+public:
+    Delivery(int i, double c, string n)
+    {
+        id = i;
+        cost = c;
+        customer = n;
+    }
+
+    void displayInfo(int i, double c, string n)
+    {
+        cout << "Delivery Information:" << endl;
+        cout << "ID: " << id << endl;
+        cout << "Cost: " << cost << endl;
+        cout << "Customer: " << customer << endl;
+    }
+};
+
+class ExpressDelivery : public Delivery
+{
+private:
+    string priority;
+
+public:
+	using Delivery::displayInfo;
+    ExpressDelivery(int i, double c, string n, string p):Delivery( i,  c, n)
+    {
+        id = i;
+        cost = c;
+        customer = n;
+        priority = p;
+    }
+
+    void displayInfo(int i, double c, string n, string p)
+    {
+        cout << endl;
+        cout << "Express Delivery Information:" << endl;
+        cout << "ID: " << id << endl;
+        cout << "Cost: " << cost << endl;
+        cout << "Customer: " << customer << endl;
+        cout << "Priority Level: " << priority << endl;
+    }
+};
+
+int main()
+{
+
+    ExpressDelivery d2(200, 2000.75, "Talha Barak zaie", "High");
+    ExpressDelivery d1(100, 950.5, "Maaz khan", "high");
+
+    d1.displayInfo(100, 950.5, "Maaz khan");
+    d2.displayInfo(200, 2000.75, "Talha Barak zaie", "High");
+
+    return 0;
+}
