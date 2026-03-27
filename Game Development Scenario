@@ -1,0 +1,139 @@
+#include <iostream>
+using namespace std;
+class Hero {
+protected:
+    string name, heroType;
+    int    health, powerLevel;
+    double experienceXP;
+
+public:
+    Hero(string n, string t, int hp, int pl, double xp)
+        : name(n), heroType(t), health(hp), powerLevel(pl), experienceXP(xp) {}
+
+    virtual double calculateAttack()  = 0;
+    virtual double calculateDefense() = 0;
+    void showGameRules() {
+        cout << "========================================\n";
+        cout << "  FANTASY BATTLE ARENA — Welcome!\n";
+        cout << "  Rule 1: Higher attack = more damage\n";
+        cout << "  Rule 2: Higher defense = less damage taken\n";
+        cout << "========================================\n";
+    }
+
+    virtual void showProfile() {
+        cout << "\nName       : " << name        << "\n";
+        cout << "Type       : " << heroType     << "\n";
+        cout << "Health     : " << health       << " HP\n";
+        cout << "Power      : " << powerLevel   << "\n";
+        cout << "Experience : " << experienceXP << " XP\n";
+    }
+
+    string getName() { return name; }
+};
+
+
+class Warrior : public Hero {
+    string weapon;
+    int armor, rage;
+
+public:
+    Warrior(string n, int hp, int pl, double xp, string w, int a, int r)
+        : Hero(n, "Warrior", hp, pl, xp), weapon(w), armor(a), rage(r) {}
+
+    double calculateAttack() override {
+        return (powerLevel * 2.5) + (rage * 1.8);
+    }
+
+    double calculateDefense() override {
+        return (armor * 3.0) + (powerLevel * 0.5);
+    }
+
+    void showProfile() override {
+        Hero::showProfile();
+        cout << "Weapon     : " << weapon << "\n";
+        cout << "Armor      : " << armor  << "\n";
+        cout << "Rage       : " << rage   << "\n";
+    }
+};
+class Mage : public Hero {
+    string spell;
+    int    mana;
+    double multiplier;
+
+public:
+    Mage(string n, int hp, int pl, double xp, string s, int m, double mp)
+        : Hero(n, "Mage", hp, pl, xp), spell(s), mana(m), multiplier(mp) {}
+
+    double calculateAttack() override {
+        return (mana * multiplier) + (powerLevel * 1.5);
+    }
+
+    double calculateDefense() override {
+        return (mana * 0.8) + (multiplier * 20.0);
+    }
+
+    void showProfile() override {
+        Hero::showProfile();
+        cout << "Spell      : " << spell      << "\n";
+        cout << "Mana       : " << mana       << "\n";
+        cout << "Multiplier : " << multiplier << "x\n";
+    }
+};
+class Archer : public Hero {
+    string bow;
+    int    arrows;
+    double accuracy;
+
+public:
+    Archer(string n, int hp, int pl, double xp, string b, int a, double acc)
+        : Hero(n, "Archer", hp, pl, xp), bow(b), arrows(a), accuracy(acc) {}
+
+    double calculateAttack() override {
+        return (arrows * accuracy * 4.0) + (powerLevel * 1.2);
+    }
+
+    double calculateDefense() override {
+        return (accuracy * 80.0) + (powerLevel * 0.7);
+    }
+
+    void showProfile() override {
+        Hero::showProfile();
+        cout << "Bow        : " << bow             << "\n";
+        cout << "Arrows     : " << arrows          << "\n";
+        cout << "Accuracy   : " << accuracy * 100  << "%\n";
+    }
+};
+int main() {
+
+    Warrior thor("Thor", 250, 85, 1200, "Greatsword",    70, 90);
+    Mage    zara("Zara", 160, 75, 1500, "Inferno Blast", 200, 3.5);
+    Archer  lyra("Lyra", 190, 70, 1350, "Elven Longbow", 40, 0.92);
+
+    Hero* heroes[3] = { &thor, &zara, &lyra };
+    string types[3] = { "Warrior", "Mage", "Archer" };
+    double atk[3], def[3];
+
+    for (int i = 0; i < 3; i++) {
+        heroes[i]->showGameRules();
+        heroes[i]->showProfile();
+
+        atk[i] = heroes[i]->calculateAttack();
+        def[i] = heroes[i]->calculateDefense();
+
+        cout << "Attack  : " << atk[i] << "\n";
+        cout << "Defense : " << def[i] << "\n";
+        cout << "----------------------------------------\n";
+    }
+    int best = 0;
+    for (int i = 1; i < 3; i++)
+        if (atk[i] > atk[best]) best = i;
+
+    cout << "\n===== SUMMARY =====\n";
+    for (int i = 0; i < 3; i++)
+        cout << types[i] << " -> Attack: " << atk[i] << "  Defense: " << def[i] << "\n";
+
+    cout << "\nWinner: " << heroes[best]->getName()
+         << " with " << atk[best] << " damage!\n";
+
+    return 0;
+}
